@@ -1,0 +1,5 @@
+rootProject.name = 'reto'
+
+include 'reto-service'
+include 'reto-core'
+include 'reto-domain'
