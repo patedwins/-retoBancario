@@ -24,10 +24,7 @@ public class UtilService implements IUtilService {
      */
     @Override
     public GeneralResponseVo asignarGeneralResponse(Object object, HttpStatus httpStatus, String message) {
-        String status = Constantes.ERRONEO;
-        if (httpStatus.value() == 200) {
-            status = Constantes.EXITOSO;
-        }
+        String status = httpStatus.value() == 200 ? Constantes.EXITOSO : Constantes.ERRONEO;
         return new GeneralResponseVo().toBuilder()
                 .object(object)
                 .code(httpStatus.value())

@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
@@ -47,12 +47,12 @@ import java.util.stream.Collectors;
 @Service
 public class MovimientoService implements IMovimientoService {
 
-    private final IMovimientoRepository movimientoRepository;
-    private final IEntidadRepository entidadRepository;
-    private final ICuentaRepository cuentaRepository;
-    private final IClienteRepository clienteRepository;
-    private final ICuentaClienteRepository cuentaClienteRepository;
-    private final IUtilService iUtilService;
+    private final transient IMovimientoRepository movimientoRepository;
+    private final transient IEntidadRepository entidadRepository;
+    private final transient ICuentaRepository cuentaRepository;
+    private final transient IClienteRepository clienteRepository;
+    private final transient ICuentaClienteRepository cuentaClienteRepository;
+    private final transient IUtilService iUtilService;
     private static final DateFormat FORMATO = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
 
     /**

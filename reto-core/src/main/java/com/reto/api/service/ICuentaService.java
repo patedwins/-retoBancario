@@ -1,19 +1,15 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.api.service;
 
-import com.reto.api.service.exception.RetoException;
-import com.reto.postgres.entity.CuentaEntity;
-import com.reto.postgres.entity.EntidadEntity;
 import com.reto.vo.CuentaClienteVo;
 import com.reto.vo.CuentaVo;
-
-import java.util.List;
+import com.reto.vo.response.security.GeneralResponseVo;
 
 /**
  * Cuenta service interfaz.
@@ -24,37 +20,37 @@ import java.util.List;
 public interface ICuentaService {
 
     /**
-     * Find all cuenta.
-     *
-     * @return a @{@link EntidadEntity} list.
-     */
-    List<CuentaEntity> findAll();
-
-    /**
      * Save new persona
      *
      * @return a @{@link String} list.
      */
-    String saveNewCuenta(CuentaVo data) throws RetoException;
+    GeneralResponseVo saveNewCuenta(CuentaVo data);
 
     /**
      * Update a persona
      *
      * @return a @{@link String} list.
      */
-    String updateCuenta(CuentaVo data) throws RetoException;
+    GeneralResponseVo updateCuenta(CuentaVo data);
 
     /**
      * Delete a persona
      *
      * @return a @{@link String} list.
      */
-    String deleteCuenta(CuentaVo data) throws RetoException;
+    GeneralResponseVo deleteCuenta(CuentaVo data);
 
     /**
      * Delete a persona
      *
      * @return a @{@link String} list.
      */
-    String crearCuentaCliente(CuentaClienteVo data) throws RetoException;
+    GeneralResponseVo crearCuentaCliente(CuentaClienteVo data);
+
+    /**
+     * Find all cuenta
+     *
+     * @return a @{@link String} list.
+     */
+    GeneralResponseVo findAllCuenta();
 }

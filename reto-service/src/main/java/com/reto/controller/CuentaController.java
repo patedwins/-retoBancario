@@ -1,19 +1,18 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.controller;
 
 import com.reto.api.service.ICuentaService;
-import com.reto.api.service.exception.util.MensajeConstantes;
 import com.reto.postgres.entity.CuentaEntity;
 import com.reto.vo.CuentaClienteVo;
 import com.reto.vo.CuentaVo;
+import com.reto.vo.response.security.GeneralResponseVo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 /**
  * CatalogoController.
@@ -60,8 +59,9 @@ public class CuentaController {
      */
     @GetMapping(value = "obtenerListaCuenta", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public List<CuentaEntity> findAll() {
-        return cuentaService.findAll();
+    public ResponseEntity<GeneralResponseVo> findAll() {
+        GeneralResponseVo responseVo = cuentaService.findAllCuenta();
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -71,18 +71,9 @@ public class CuentaController {
      */
     @PostMapping(value = "nuevaCuenta", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> newCuenta(@RequestBody CuentaVo data, HttpServletRequest request) {
-        try {
-            String respons = cuentaService.saveNewCuenta(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.SAVE_NEW, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva Cuenta: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> newCuenta(@RequestBody @NotNull CuentaVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = cuentaService.saveNewCuenta(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -92,18 +83,9 @@ public class CuentaController {
      */
     @PutMapping(value = "actualizarCuenta", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> updateCuenta(@RequestBody CuentaVo data, HttpServletRequest request) {
-        try {
-            String respons = cuentaService.updateCuenta(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.SAVE_UPDATE, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en actualizar cuenta: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> updateCuenta(@RequestBody CuentaVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = cuentaService.updateCuenta(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -113,18 +95,9 @@ public class CuentaController {
      */
     @DeleteMapping(value = "eliminarCuenta", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> deleteCuenta(@RequestBody CuentaVo data, HttpServletRequest request) {
-        try {
-            String respons = cuentaService.deleteCuenta(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.DELETE, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en un eliminar cuenta: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> deleteCuenta(@RequestBody CuentaVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = cuentaService.deleteCuenta(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -134,17 +107,8 @@ public class CuentaController {
      */
     @PostMapping(value = "nuevaCuentaCliente", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> crearCuentaCliente(@RequestBody CuentaClienteVo data, HttpServletRequest request) {
-        try {
-            String respons = cuentaService.crearCuentaCliente(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.SAVE_NEW, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva cuenta cliente: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> crearCuentaCliente(@RequestBody CuentaClienteVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = cuentaService.crearCuentaCliente(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 }

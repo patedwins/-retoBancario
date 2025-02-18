@@ -1,17 +1,18 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.controller;
 
 import com.reto.api.service.IEntidadService;
-import com.reto.api.service.exception.util.MensajeConstantes;
 import com.reto.postgres.entity.EntidadEntity;
+import com.reto.vo.request.security.EntidadNewRequestVo;
+import com.reto.vo.request.security.EntidadRequestVo;
+import com.reto.vo.response.security.GeneralResponseVo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 /**
  * CatalogoController.
@@ -56,10 +57,11 @@ public class EntidadController {
      *
      * @return a @{@link EntidadEntity} list.
      */
-    @GetMapping(value = "obtenerListaCuenta", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "obtenerListaEntidad", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public List<EntidadEntity> findAll() {
-        return entidadService.findAll();
+    public ResponseEntity<GeneralResponseVo> findAll() {
+        GeneralResponseVo responseVo = entidadService.findAllEntidad();
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -69,18 +71,9 @@ public class EntidadController {
      */
     @PostMapping(value = "nuevaEntidad", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> newEntity(@RequestBody EntidadEntity data, HttpServletRequest request) {
-        try {
-            String respons = entidadService.saveNewEntidad(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.SAVE_NEW, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva dataa: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> newEntity(@RequestBody @NotNull EntidadNewRequestVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = entidadService.saveNewEntidad(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -90,18 +83,9 @@ public class EntidadController {
      */
     @PutMapping(value = "actualizarEntidad", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> updateEntidad(@RequestBody EntidadEntity data, HttpServletRequest request) {
-        try {
-            String respons = entidadService.updateEntidad(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.SAVE_UPDATE, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva dataa: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> updateEntidad(@RequestBody @NotNull EntidadRequestVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = entidadService.updateEntidad(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -111,17 +95,8 @@ public class EntidadController {
      */
     @DeleteMapping(value = "eliminarEntidad", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> deleteEntidad(@RequestBody EntidadEntity data, HttpServletRequest request) {
-        try {
-            String respons = entidadService.deleteEntidad(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.DELETE, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva dataa: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> deleteEntidad(@RequestBody @NotNull EntidadRequestVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = entidadService.deleteEntidad(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 }

@@ -1,10 +1,11 @@
-package com.reto.vo;
+package com.reto.vo.request.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -17,12 +18,10 @@ import java.io.Serializable;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteVo implements Serializable {
+public class EntidadNewRequestVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
-    private Integer idPersona;
-    private String clienteId;
-    private String contrasena;
+    @NotNull
+    private String nombre;
     private Boolean estado;
 }

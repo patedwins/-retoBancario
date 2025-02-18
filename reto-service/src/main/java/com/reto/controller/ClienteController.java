@@ -1,18 +1,17 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.controller;
 
 import com.reto.api.service.IClienteService;
-import com.reto.api.service.exception.util.MensajeConstantes;
 import com.reto.postgres.entity.ClienteEntity;
 import com.reto.vo.ClienteVo;
+import com.reto.vo.response.security.GeneralResponseVo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 /**
  * CatalogoController.
@@ -57,10 +56,11 @@ public class ClienteController {
      *
      * @return a @{@link ClienteEntity} list.
      */
-    @GetMapping(value = "obtenerListaCuenta", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "obtenerListaCliente", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public List<ClienteEntity> findAll() {
-        return clienteService.findAll();
+    public ResponseEntity<GeneralResponseVo> findAll() {
+        GeneralResponseVo responseVo = clienteService.findAll();
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -68,20 +68,11 @@ public class ClienteController {
      *
      * @return a @{@link ClienteEntity} string.
      */
-    @PostMapping(value = "nuevaEntidad", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "nuevoCliente", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> newEntity(@RequestBody ClienteVo data, HttpServletRequest request) {
-        try {
-            String respons = clienteService.saveNewCliente(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.SAVE_NEW, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva dataa: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> newEntity(@RequestBody @NotNull ClienteVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = clienteService.saveNewCliente(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -89,20 +80,11 @@ public class ClienteController {
      *
      * @return a @{@link ClienteEntity} string.
      */
-    @PutMapping(value = "actualizarEntidad", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "actualizarCliente", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> updateEntidad(@RequestBody ClienteVo data, HttpServletRequest request) {
-        try {
-            String respons = clienteService.updateCliente(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.SAVE_UPDATE, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva dataa: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> updateEntidad(@RequestBody ClienteVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = clienteService.updateCliente(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 
     /**
@@ -110,19 +92,10 @@ public class ClienteController {
      *
      * @return a @{@link ClienteEntity} string.
      */
-    @DeleteMapping(value = "eliminarEntidad", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
+    @DeleteMapping(value = "eliminarCliente", produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<String> deleteEntidad(@RequestBody ClienteVo data, HttpServletRequest request) {
-        try {
-            String respons = clienteService.deleteCliente(data);
-            if (respons == null) {
-                return new ResponseEntity<>(MensajeConstantes.DELETE, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(respons, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error en una nueva dataa: "
-                    + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<GeneralResponseVo> deleteEntidad(@RequestBody ClienteVo data, HttpServletRequest request) {
+        GeneralResponseVo responseVo = clienteService.deleteCliente(data);
+        return new ResponseEntity<>(responseVo, responseVo.getHttpStatus());
     }
 }

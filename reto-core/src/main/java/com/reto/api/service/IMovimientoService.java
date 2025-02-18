@@ -1,19 +1,16 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.api.service;
 
 import com.reto.api.service.exception.RetoException;
-import com.reto.vo.MovimientoFechasVo;
 import com.reto.vo.MovimientoRegistarVo;
 import com.reto.vo.MovimientoVo;
 import com.reto.vo.response.security.GeneralResponseVo;
-
-import java.util.List;
 
 /**
  * Base catálogo service interfaz.

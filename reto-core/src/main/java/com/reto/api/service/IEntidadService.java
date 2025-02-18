@@ -1,14 +1,16 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.api.service;
 
-import com.reto.api.service.exception.RetoException;
 import com.reto.postgres.entity.EntidadEntity;
+import com.reto.vo.request.security.EntidadNewRequestVo;
+import com.reto.vo.request.security.EntidadRequestVo;
+import com.reto.vo.response.security.GeneralResponseVo;
 
 import java.util.List;
 
@@ -32,19 +34,26 @@ public interface IEntidadService {
      *
      * @return a @{@link String} list.
      */
-    String saveNewEntidad(EntidadEntity data) throws RetoException;
+    GeneralResponseVo saveNewEntidad(EntidadNewRequestVo data);
 
     /**
-     * Update a persona
+     * Update a cuenta
      *
      * @return a @{@link String} list.
      */
-    String updateEntidad(EntidadEntity data) throws RetoException;
+    GeneralResponseVo updateEntidad(EntidadRequestVo data);
 
     /**
      * Delete a persona
      *
      * @return a @{@link String} list.
      */
-    String deleteEntidad(EntidadEntity data) throws RetoException;
+    GeneralResponseVo deleteEntidad(EntidadRequestVo data);
+
+    /**
+     * Find all entidad
+     *
+     * @return a @{@link String} list.
+     */
+    GeneralResponseVo findAllEntidad();
 }

@@ -1,4 +1,4 @@
-package com.reto.vo;
+package com.reto.vo.response.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,11 +17,11 @@ import java.io.Serializable;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteVo implements Serializable {
+public class ClienteResponseVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
-    private Integer idPersona;
+    private PersonaResponseVo persona;
     private String clienteId;
     private String contrasena;
     private Boolean estado;

@@ -1,6 +1,9 @@
 package com.reto.postgres.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +24,9 @@ import java.math.BigDecimal;
  */
 @Entity
 @Data
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "cuenta", schema = "reto")
 public class CuentaEntity {
     @Id

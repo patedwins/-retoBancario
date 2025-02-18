@@ -1,13 +1,12 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.api.service;
 
-import com.reto.api.service.exception.RetoException;
 import com.reto.postgres.entity.EntidadEntity;
 import com.reto.postgres.entity.PersonaEntity;
 import com.reto.vo.request.security.PersonaNewRequestVo;

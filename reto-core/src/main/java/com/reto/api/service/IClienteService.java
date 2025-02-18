@@ -1,17 +1,15 @@
 /*
- * Copyright (c) 2021.
+ * Copyright (c) 2025.
  *
- * Superintendencia de Econom&iacute;a Popular y Solidaria
+ *
  * Todos los derechos reservados
  */
 
 package com.reto.api.service;
 
-import com.reto.api.service.exception.RetoException;
 import com.reto.postgres.entity.ClienteEntity;
 import com.reto.vo.ClienteVo;
-
-import java.util.List;
+import com.reto.vo.response.security.GeneralResponseVo;
 
 /**
  * Base catálogo service interfaz.
@@ -26,26 +24,26 @@ public interface IClienteService {
      *
      * @return a @{@link ClienteEntity} list.
      */
-    List<ClienteEntity> findAll();
+    GeneralResponseVo findAll();
 
     /**
      * Save new persona
      *
      * @return a @{@link String} list.
      */
-    String saveNewCliente(ClienteVo data) throws RetoException;
+    GeneralResponseVo saveNewCliente(ClienteVo data);
 
     /**
      * Update a persona
      *
      * @return a @{@link String} list.
      */
-    String updateCliente(ClienteVo data) throws RetoException;
+    GeneralResponseVo updateCliente(ClienteVo data);
 
     /**
      * Delete a persona
      *
      * @return a @{@link String} list.
      */
-    String deleteCliente(ClienteVo data) throws RetoException;
+    GeneralResponseVo deleteCliente(ClienteVo data);
 }
