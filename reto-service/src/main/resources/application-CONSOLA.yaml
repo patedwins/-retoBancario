@@ -11,31 +11,18 @@ logging:
 ---
 spring:
   datasource:
-    postgres:
-      type: com.zaxxer.hikari.HikariDataSource
-      driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://pg-retobancario-patedwins-51db.h.aivencloud.com:14509/defaultdb
-      username: avnadmin
-      password: AVNS_mInwqcKdhpvPttfbR-b
-      hikari:
-        minimumIdle: ${base.minimumidle:5}
-        connectionTimeout: ${base.timeout:60000}
-        idleTimeout: ${base.idletimeout:600000}
-        maxLifetime: ${base.maxlifetime:180000}
-        maximumPoolSize: ${base.maxpoolsize:300}
-        connectionTestQuery: SELECT 1
-    oracle:
-      type: com.zaxxer.hikari.HikariDataSource
-      driver-class-name: oracle.jdbc.OracleDriver
-      jdbc-url: jdbc:oracle:thin:@172.30.7.41:1521:desseps
-      username: AUDT
-      password: AUDT2024
-      hikari:
-        connectionTimeout: 60000
-        idleTimeout: 600000
-        maxLifetime: 1800000
-        maximumPoolSize: 20
-        connectionTestQuery: SELECT 1 FROM DUAL
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://pg-retobancario-patedwins-51db.h.aivencloud.com:14509/defaultdb
+    username: avnadmin
+    password: AVNS_mInwqcKdhpvPttfbR-b
+    hikari:
+      minimumIdle: ${base.minimumidle:5}
+      connectionTimeout: ${base.timeout:60000}
+      idleTimeout: ${base.idletimeout:600000}
+      maxLifetime: ${base.maxlifetime:180000}
+      maximumPoolSize: ${base.maxpoolsize:300}
+      connectionTestQuery: SELECT 1
     jpa:
       # database-platform: org.hibernate.dialect.PostgreSQL94Dialect
       hibernate:

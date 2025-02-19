@@ -10,6 +10,10 @@ package com.reto.postgres.repository;
 import com.reto.postgres.entity.CuentaEntity;
 import com.reto.postgres.entity.EntidadEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 /**
  * Repository interfaz.
@@ -27,5 +31,8 @@ public interface ICuentaRepository extends JpaRepository<CuentaEntity, Integer> 
      * @return
      */
     CuentaEntity findByNumCuentaAndEntidad(String numCuenta, EntidadEntity entidad);
+
+    @Query("select count(c) from EntidadEntity c ")
+    Long obtenerPorId();
 
 }
