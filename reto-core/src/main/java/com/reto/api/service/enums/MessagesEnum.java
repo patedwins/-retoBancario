@@ -8,7 +8,7 @@ package com.reto.api.service.enums;
  */
 public enum MessagesEnum {
 
-    ERROR_404("ec.gob.seps.error.message.404");
+    ERROR_404("error.message.404");
 
     private String value;
 

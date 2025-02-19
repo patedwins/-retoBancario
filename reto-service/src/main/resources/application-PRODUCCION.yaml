@@ -3,7 +3,7 @@ server:
 logging:
   level:
     root: ERROR
-    #ec.gob.seps.common: DEBUG
+    #: DEBUG
     #org.hibernate.SQL: DEBUG
     #org.hibernate.type.descriptor.sql: TRACE
     #org.springframework.jdbc.core.JdbcTemplate: DEBUG
@@ -14,9 +14,9 @@ spring:
     postgres:
       type: com.zaxxer.hikari.HikariDataSource
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ENC(${seps.jdbc.url})
-      username: ENC(${seps.jdbc.user})
-      password: ENC(${seps.jdbc.password})
+      jdbc-url: ENC(${url})
+      username: ENC(${user})
+      password: ENC(${password})
       hikari:
         minimumIdle: ${base.minimumidle:5}
         connectionTimeout: ${base.timeout:60000}
@@ -27,9 +27,9 @@ spring:
     oracle:
       type: com.zaxxer.hikari.HikariDataSource
       driver-class-name: oracle.jdbc.OracleDriver
-      jdbc-url: ENC(${seps.jdbc.oracle.url})
-      username: ENC(${seps.jdbc.oracle.user})
-      password: ENC(${seps.jdbc.oracle.password})
+      jdbc-url: ENC(${oracle.url})
+      username: ENC(${oracle.user})
+      password: ENC(${oracle.password})
       hikari:
         connectionTimeout: 60000
         idleTimeout: 600000

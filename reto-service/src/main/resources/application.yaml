@@ -10,6 +10,18 @@ management:
 ---
 spring:
   datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://pg-retobancario-patedwins-51db.h.aivencloud.com:14509/defaultdb
+    username: avnadmin
+    password: AVNS_mInwqcKdhpvPttfbR-b
+    hikari:
+      minimumIdle: ${base.minimumidle:5}
+      connectionTimeout: ${base.timeout:60000}
+      idleTimeout: ${base.idletimeout:600000}
+      maxLifetime: ${base.maxlifetime:180000}
+      maximumPoolSize: ${base.maxpoolsize:300}
+      connectionTestQuery: SELECT 1
     postgres:
       type: com.zaxxer.hikari.HikariDataSource
       driver-class-name: org.postgresql.Driver
@@ -33,7 +45,7 @@ spring:
 logging:
   level:
     root: INFO
-    #ec.gob.seps.common: DEBUG
+    #: DEBUG
     org.hibernate.SQL: DEBUG
     #org.hibernate.type.descriptor.sql: TRACE
     #org.springframework.jdbc.core.JdbcTemplate: DEBUG

@@ -1,11 +1,13 @@
-package ec.gob.seps.base.rest;
+package reto.base.rest;
 
 import com.reto.postgres.entity.ClienteEntity;
 import com.reto.postgres.entity.PersonaEntity;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Tag("integrationCliente")
 public class ClienteTest {
     @Test
     public void testClienteEntity() {
@@ -18,6 +20,6 @@ public class ClienteTest {
         // Verificar que los valores se asignaron correctamente
         assertEquals(1, cliente.getId());
         assertEquals("Juan Pérez", cliente.getPersona().getNombre());
-        assertEquals("Prueba234", cliente.getContrasena());
+        assertEquals("Prueba123", cliente.getContrasena());
     }
 }

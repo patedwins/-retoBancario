@@ -1,6 +1,5 @@
 dependencies {
     implementation project(':reto-domain')
-    implementation 'ec.gob.seps.utils:seps-core-util:1.1.0-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.3'
     implementation 'org.springframework.security:spring-security-core:5.5.2'
 
