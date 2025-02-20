@@ -9,12 +9,10 @@ package com.reto.api.service;
 
 import com.reto.api.service.exception.RetoException;
 import com.reto.api.service.exception.util.MensajeConstantes;
-import com.reto.postgres.entity.ClienteEntity;
 import com.reto.postgres.entity.CuentaClienteEntity;
 import com.reto.postgres.entity.CuentaEntity;
 import com.reto.postgres.entity.EntidadEntity;
 import com.reto.postgres.entity.MovimientoEntity;
-import com.reto.postgres.repository.IClienteRepository;
 import com.reto.postgres.repository.ICuentaClienteRepository;
 import com.reto.postgres.repository.ICuentaRepository;
 import com.reto.postgres.repository.IEntidadRepository;
@@ -50,7 +48,6 @@ public class MovimientoService implements IMovimientoService {
     private final transient IMovimientoRepository movimientoRepository;
     private final transient IEntidadRepository entidadRepository;
     private final transient ICuentaRepository cuentaRepository;
-    private final transient IClienteRepository clienteRepository;
     private final transient ICuentaClienteRepository cuentaClienteRepository;
     private final transient IUtilService iUtilService;
     private static final DateFormat FORMATO = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
@@ -63,13 +60,11 @@ public class MovimientoService implements IMovimientoService {
     public MovimientoService(IMovimientoRepository movimientoRepository,
                              IEntidadRepository entidadRepository,
                              ICuentaRepository cuentaRepository,
-                             IClienteRepository clienteRepository,
                              ICuentaClienteRepository cuentaClienteRepository,
                              IUtilService iUtilService) {
         this.movimientoRepository = movimientoRepository;
         this.entidadRepository = entidadRepository;
         this.cuentaRepository = cuentaRepository;
-        this.clienteRepository = clienteRepository;
         this.cuentaClienteRepository = cuentaClienteRepository;
         this.iUtilService = iUtilService;
     }
@@ -119,21 +114,13 @@ public class MovimientoService implements IMovimientoService {
      */
     @Override
     public GeneralResponseVo generarMovimientoPorEntidad(MovimientoRegistarVo movimiento) {
-        Optional<CuentaEntity> cuentaOp = cuentaRepository.findById(movimiento.getIdCuenta());
+        Optional<CuentaClienteEntity> cuentaOp = cuentaClienteRepository.findById(movimiento.getIdCuentaCliente());
         if (!cuentaOp.isPresent()) {
-            return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, "No se encontró la cuenta");
+            return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, "No se encontró la cuenta con el cliente enviado");
         }
-        Optional<ClienteEntity> clienteOp = clienteRepository.findById(movimiento.getIdCliente());
-        if (!clienteOp.isPresent()) {
-            return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, "No se encontró al cliente");
-        }
-        CuentaEntity cuenta = cuentaOp.get();
-        CuentaClienteEntity cuentaCliente = cuentaClienteRepository.findByCuentaAndCliente(cuenta, clienteOp.get());
-        if (cuentaCliente == null) {
-            return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, "No se encontró la cuenta asociada al cliente");
-        }
+        CuentaClienteEntity cuentaCliente = cuentaOp.get();
         MovimientoEntity newMovimiento = new MovimientoEntity();
-        BigDecimal saldoDisponible = cuentaOp.get().getSaldoDisponible();
+        BigDecimal saldoDisponible = cuentaCliente.getCuenta().getSaldoDisponible();
         newMovimiento.setCuentaCliente(cuentaCliente);
         if (movimiento.getValorMovimiento().compareTo(BigDecimal.ZERO) >= 0) {
             newMovimiento.setTipo(Constantes.DEPOSITO);
@@ -146,6 +133,7 @@ public class MovimientoService implements IMovimientoService {
         newMovimiento.setSaldoCuentaFecha(saldoDisponible);
         newMovimiento.setValor(movimiento.getValorMovimiento());
         newMovimiento.setFecMovimiento(new Date());
+        CuentaEntity cuenta = cuentaCliente.getCuenta();
         cuenta.setSaldoDisponible(saldoDisponible);
         movimientoRepository.save(newMovimiento);
         cuentaRepository.save(cuenta);

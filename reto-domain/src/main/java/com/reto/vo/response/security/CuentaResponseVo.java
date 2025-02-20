@@ -22,6 +22,7 @@ public class CuentaResponseVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
+    private String nombreCuenta;
     private EntidadResponseVo entidad;
     private String numCuenta;
     private String tipo;

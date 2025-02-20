@@ -7,16 +7,23 @@
 
 package com.reto.api.service;
 
+import com.reto.api.service.exception.RetoException;
+import com.reto.postgres.entity.ClienteEntity;
 import com.reto.postgres.entity.EntidadEntity;
 import com.reto.postgres.entity.PersonaEntity;
+import com.reto.postgres.repository.IClienteRepository;
 import com.reto.postgres.repository.IPersonaRepository;
 import com.reto.util.Constantes;
+import com.reto.vo.ClienteVo;
 import com.reto.vo.request.security.PersonaNewRequestVo;
 import com.reto.vo.request.security.PersonaRequestVo;
+import com.reto.vo.request.security.UsuarioNewRequestVo;
 import com.reto.vo.response.security.GeneralResponseVo;
 import com.reto.vo.response.security.PersonaResponseVo;
+import com.reto.vo.response.security.UsuarioResponseVo;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +40,8 @@ public class PersonaService implements IPersonaService {
 
     private final transient IPersonaRepository personaRepository;
     private final transient IUtilService iUtilService;
+    private final transient IClienteService iClienteService;
+    private final transient IClienteRepository clienteRepository;
 
     /**
      * Constructor
@@ -40,9 +49,12 @@ public class PersonaService implements IPersonaService {
      * @param personaRepository
      */
     public PersonaService(IPersonaRepository personaRepository
-            , IUtilService iUtilService) {
+            , IUtilService iUtilService, IClienteService iClienteService
+            , IClienteRepository clienteRepository) {
         this.personaRepository = personaRepository;
         this.iUtilService = iUtilService;
+        this.iClienteService = iClienteService;
+        this.clienteRepository = clienteRepository;
     }
 
     /**
@@ -154,6 +166,76 @@ public class PersonaService implements IPersonaService {
                             .estado(persona.getEstado())
                             .identificacion(persona.getIdentificacion())
                             .telefono(persona.getTelefono())
+                            .build())
+                    .collect(Collectors.toList());
+            return iUtilService.asignarGeneralResponse(retorno, HttpStatus.OK, Constantes.CONSULTA_CORRECTA);
+        } catch (Exception e) {
+            return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    /**
+     * Save new persona
+     *
+     * @param person
+     * @return a @{@link EntidadEntity} list.
+     */
+    @Override
+    @Transactional(rollbackFor = {RetoException.class})
+    public GeneralResponseVo saveNewUser(UsuarioNewRequestVo person) {
+        try {
+            List<PersonaEntity> findPersons = personaRepository.findByIdentificacion(person.getIdentificacion());
+            if (findPersons.isEmpty()) {
+                PersonaEntity newPerson = new PersonaEntity().toBuilder()
+                        .nombre(person.getNombre())
+                        .edad(person.getEdad() == null ? 0 : person.getEdad())
+                        .direccion(person.getDireccion())
+                        .genero(person.getGenero() == null ? "M" : person.getGenero())
+                        .identificacion(person.getIdentificacion())
+                        .telefono(person.getTelefono())
+                        .estado(Boolean.TRUE)
+                        .build();
+                personaRepository.save(newPerson);
+                ClienteVo data = new ClienteVo().toBuilder()
+                        .idPersona(newPerson.getId())
+                        .clienteId(person.getIdentificacion())
+                        .contrasena(person.getContrasena())
+                        .estado(Boolean.TRUE)
+                        .build();
+                GeneralResponseVo resp = iClienteService.saveNewCliente(data);
+                if (resp.getCode().equals(HttpStatus.OK.value())) {
+                    return iUtilService.asignarGeneralResponse(null, HttpStatus.OK, Constantes.ALMACENADO_OK);
+                } else {
+                    return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, resp.getMessage());
+                }
+            } else {
+                return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, "Ya existe la persona con la identificación registrada");
+            }
+        } catch (Exception e) {
+            return iUtilService.asignarGeneralResponse(null, HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    /**
+     * Find all persona
+     *
+     * @return a @{@link String} list.
+     */
+    @Override
+    public GeneralResponseVo findAllUsers() {
+        try {
+            List<ClienteEntity> listPerson = clienteRepository.findAll();
+            List<UsuarioResponseVo> retorno = listPerson.stream()
+                    .map(persona -> UsuarioResponseVo.builder()
+                            .id(persona.getId())
+                            .nombre(persona.getPersona().getNombre())
+                            .direccion(persona.getPersona().getDireccion())
+                            .genero(persona.getPersona().getGenero())
+                            .edad(persona.getPersona().getEdad())
+                            .estado(persona.getPersona().getEstado())
+                            .identificacion(persona.getPersona().getIdentificacion())
+                            .telefono(persona.getPersona().getTelefono())
+                            .contrasena(persona.getContrasena())
                             .build())
                     .collect(Collectors.toList());
             return iUtilService.asignarGeneralResponse(retorno, HttpStatus.OK, Constantes.CONSULTA_CORRECTA);

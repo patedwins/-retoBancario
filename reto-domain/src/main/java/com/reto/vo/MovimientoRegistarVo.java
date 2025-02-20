@@ -15,8 +15,7 @@ import java.math.BigDecimal;
 public class MovimientoRegistarVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer idCuenta;
-    private Integer idCliente;
+    private Integer idCuentaCliente;
     private String cliente;
     private String numCuenta;
     private String tipoCuenta;

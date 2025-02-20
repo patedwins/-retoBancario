@@ -1,0 +1,11 @@
+curl --request POST \
+  --url http://localhost:8080/reto/cuenta/nuevaCuentaCliente \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "idEntidad": 1,
+  "idCliente": 2,
+  "numCuenta": "478758",
+  "tipo": "Ahorro",
+  "saldoInicial": 2000,
+  "estado": true
+}'

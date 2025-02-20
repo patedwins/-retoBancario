@@ -51,7 +51,8 @@ public class CuentaService implements ICuentaService {
      * @param cuentaRepository
      */
     public CuentaService(ICuentaRepository cuentaRepository, IEntidadRepository entidadRepository
-            , IClienteRepository clienteRepository, ICuentaClienteRepository cuentaClienteRepository, IUtilService iUtilService) {
+            , IClienteRepository clienteRepository, ICuentaClienteRepository cuentaClienteRepository
+            , IUtilService iUtilService) {
         this.cuentaRepository = cuentaRepository;
         this.entidadRepository = entidadRepository;
         this.clienteRepository = clienteRepository;
@@ -66,7 +67,7 @@ public class CuentaService implements ICuentaService {
      * @return a @{@link String} .
      */
     @Override
-    public GeneralResponseVo saveNewCuenta(CuentaVo data){
+    public GeneralResponseVo saveNewCuenta(CuentaVo data) {
         try {
             Optional<EntidadEntity> entidadOp = entidadRepository.findById(data.getIdEntidad());
             if (entidadOp.isPresent()) {
@@ -197,17 +198,18 @@ public class CuentaService implements ICuentaService {
     @Override
     public GeneralResponseVo findAllCuenta() {
         try {
-            List<CuentaEntity> listPerson = cuentaRepository.findAll();
+            List<CuentaClienteEntity> listPerson = cuentaClienteRepository.findAll();
             List<CuentaResponseVo> retorno = listPerson.stream()
-                    .map(cuenta -> CuentaResponseVo.builder()
-                            .id(cuenta.getId())
-                            .entidad(new EntidadResponseVo().toBuilder().nombre(cuenta.getEntidad().getNombre())
-                                    .estado(cuenta.getEntidad().getEstado()).build())
-                            .numCuenta(cuenta.getNumCuenta())
-                            .tipo(cuenta.getTipo())
-                            .saldoInicial(cuenta.getSaldoInicial())
-                            .saldoDisponible(cuenta.getSaldoDisponible())
-                            .estado(cuenta.getEstado())
+                    .map(cuentaC -> CuentaResponseVo.builder()
+                            .id(cuentaC.getId())
+                            .entidad(new EntidadResponseVo().toBuilder().nombre(cuentaC.getCuenta().getEntidad().getNombre())
+                                    .estado(cuentaC.getCuenta().getEntidad().getEstado()).build())
+                            .numCuenta(cuentaC.getCuenta().getNumCuenta())
+                            .nombreCuenta(cuentaC.getCliente().getPersona().getNombre())
+                            .tipo(cuentaC.getCuenta().getTipo())
+                            .saldoInicial(cuentaC.getCuenta().getSaldoInicial())
+                            .saldoDisponible(cuentaC.getCuenta().getSaldoDisponible())
+                            .estado(cuentaC.getCuenta().getEstado())
                             .build())
                     .collect(Collectors.toList());
             return iUtilService.asignarGeneralResponse(retorno, HttpStatus.OK, Constantes.CONSULTA_CORRECTA);

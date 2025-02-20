@@ -1,6 +1,9 @@
 package com.reto.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,6 +15,9 @@ import java.math.BigDecimal;
  * @version 1.0.0
  */
 @Data
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class CuentaClienteVo implements Serializable {
     private static final long serialVersionUID = 1L;
 

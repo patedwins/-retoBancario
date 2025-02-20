@@ -11,6 +11,7 @@ import com.reto.postgres.entity.EntidadEntity;
 import com.reto.postgres.entity.PersonaEntity;
 import com.reto.vo.request.security.PersonaNewRequestVo;
 import com.reto.vo.request.security.PersonaRequestVo;
+import com.reto.vo.request.security.UsuarioNewRequestVo;
 import com.reto.vo.response.security.GeneralResponseVo;
 
 import java.util.List;
@@ -57,4 +58,18 @@ public interface IPersonaService {
      * @return a @{@link String} list.
      */
     GeneralResponseVo findAllPerson();
+
+    /**
+     * Save new persona
+     *
+     * @return a @{@link String} list.
+     */
+    GeneralResponseVo saveNewUser(UsuarioNewRequestVo person);
+
+    /**
+     * Find All  persona
+     *
+     * @return a @{@link String} list.
+     */
+    GeneralResponseVo findAllUsers();
 }

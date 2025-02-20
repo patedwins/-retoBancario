@@ -1,13 +1,11 @@
-package com.reto.vo;
+package com.reto.vo.response.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * JwtResponse.
@@ -19,17 +17,16 @@ import java.math.BigDecimal;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class CuentaVo implements Serializable {
+public class UsuarioResponseVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
-    @NotNull
-    private Integer idEntidad;
-    @NotNull
-    private String numCuenta;
-    @NotNull
-    private String tipo;
-    @NotNull
-    private BigDecimal saldoInicial;
+    private String nombre;
+    private String direccion;
+    private Integer edad;
+    private String contrasena;
+    private String identificacion;
+    private String telefono;
+    private String genero;
     private Boolean estado;
 }
