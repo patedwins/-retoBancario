@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/authenticate", "/actuator/**", "/transaccion/**",
-                        "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/movimiento/**").permitAll()
+                        "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/movimiento/**", "/entidad/obtenerListaEntidad/**").permitAll()
 
                 // Se debe agregar aqui el path de aquellos servicios que se desea que sean públicos.
                 // Ejemplo:
