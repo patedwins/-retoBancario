@@ -50,9 +50,9 @@ Para un correcto versionado se debe actualizar la version del proyecto en los di
 
 #### Aplicativo
 
-- /build.gradle -> "version = '0.0.0-SNAPSHOT'"
-- /ci/helm/values.yaml -> "appVersion: 0.0.0-SNAPSHOT"
-- /ci/helm/Chart.yaml -> "appVersion: 0.0.0-SNAPSHOT"
+- /build.gradle -> "version = '1.0.0-SNAPSHOT'"
+- /ci/helm/values.yaml -> "appVersion: 1.0.0-SNAPSHOT"
+- /ci/helm/Chart.yaml -> "appVersion: 1.0.0-SNAPSHOT"
 - /ci/docker/dockerfile -> "xxx-service-0.0.0-SNAPSHOT"
 
 #### Chart helm
@@ -75,8 +75,3 @@ docker build --build-arg "USER_ARG=pato" --build-arg "PASSWORD_ARG=pato123" --bu
 
 ### Base de datos
 postgres://avnadmin:AVNS_mInwqcKdhpvPttfbR-b@pg-retobancario-patedwins-51db.h.aivencloud.com:14509/defaultdb?sslmode=require
-defaultdb
-pg-retobancario-patedwins-51db.h.aivencloud.com
-14509
-avnadmin
-AVNS_mInwqcKdhpvPttfbR-b
