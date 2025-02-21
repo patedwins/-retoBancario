@@ -1,0 +1,3 @@
+curl --request GET \
+  --url 'http://localhost:8080/reto/movimiento/obtenerMovimientosPorFecha?fecDesde=19%2F02%2F2025&fecHasta=28%2F02%2F2025' \
+  --header 'accept: application/json'

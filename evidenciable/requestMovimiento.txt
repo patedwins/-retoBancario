@@ -1,0 +1,11 @@
+curl --request POST \
+  --url http://localhost:8080/reto/movimiento/crearMovimientosPorCuentaYCliente \
+  --header 'Content-Type: application/json' \
+  --header 'accept: application/json' \
+  --data '{
+  "idCuentaCliente": 1,
+  "cliente": "Jose Lema",
+  "numCuenta": "478758",
+  "tipoCuenta": "Ahorro",
+  "valorMovimiento": -575
+}'

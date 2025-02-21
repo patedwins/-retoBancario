@@ -1,0 +1,64 @@
+CREATE SCHEMA reto AUTHORIZATION avnadmin;
+
+CREATE TABLE reto.persona (
+	id_persona serial4 NOT NULL,
+	nombre varchar(200) NOT NULL,
+	genero varchar(1) NOT NULL,
+	edad int4 NOT NULL,
+	identificacion varchar(18) NOT NULL,
+	direccion varchar(200) NULL,
+	telefono varchar(10) NOT NULL,
+	estado bool NOT NULL,
+	CONSTRAINT persona_pkey PRIMARY KEY (id_persona)
+);
+
+CREATE TABLE reto.entidad (
+	id_entidad serial4 NOT NULL,
+	nombre varchar(200) NOT NULL,
+	estado bool NOT NULL,
+	CONSTRAINT entidad_pkey PRIMARY KEY (id_entidad)
+);
+
+CREATE TABLE reto.cliente (
+	id_cliente serial4 NOT NULL,
+	id_persona int4 NOT NULL,
+	clienteid varchar(20) NOT NULL,
+	contrasena varchar(50) NOT NULL,
+	estado bool NOT NULL,
+	CONSTRAINT cliente_pkey PRIMARY KEY (id_cliente)
+);
+ALTER TABLE reto.cliente ADD CONSTRAINT "cliente-persona" FOREIGN KEY (id_persona) REFERENCES reto.persona(id_persona);
+
+CREATE TABLE reto.cuenta (
+	id_cuenta serial4 NOT NULL,
+	id_entidad int4 NOT NULL,
+	num_cuenta varchar(50) NOT NULL,
+	tipo varchar(30) NOT NULL,
+	saldo_inicial numeric(15, 2) NOT NULL,
+	saldo_disponible numeric(15, 2) NOT NULL,
+	estado bool NOT NULL,
+	CONSTRAINT cuenta_pkey PRIMARY KEY (id_cuenta)
+);
+ALTER TABLE reto.cuenta ADD CONSTRAINT "cuenta-entidad" FOREIGN KEY (id_entidad) REFERENCES reto.entidad(id_entidad);
+
+CREATE TABLE reto.cuenta_cliente (
+	id_cuenta_cliente serial4 NOT NULL,
+	id_cuenta int4 NOT NULL,
+	id_cliente int4 NOT NULL,
+	CONSTRAINT cuenta_cliente_pkey PRIMARY KEY (id_cuenta_cliente)
+);
+ALTER TABLE reto.cuenta_cliente ADD CONSTRAINT "cuenta-cliente-cuenta" FOREIGN KEY (id_cuenta) REFERENCES reto.cuenta(id_cuenta);
+ALTER TABLE reto.cuenta_cliente ADD CONSTRAINT "cuenta-cliente-entidad" FOREIGN KEY (id_cliente) REFERENCES reto.cliente(id_cliente);
+
+CREATE TABLE reto.movimiento (
+	id_movimiento serial4 NOT NULL,
+	id_cuenta_cliente int4 NOT NULL,
+	tipo_movimiento varchar(100) NOT NULL,
+	desc_movimiento varchar(150) NOT NULL,
+	fec_movimiento timestamp NOT NULL,
+	valor numeric(15, 2) NOT NULL,
+	saldo_fecha_cuenta numeric(15, 2) NOT NULL,
+	CONSTRAINT movimiento_pkey PRIMARY KEY (id_movimiento)
+);
+ALTER TABLE reto.movimiento ADD CONSTRAINT "movimiento-cuenta_cliente" FOREIGN KEY (id_cuenta_cliente) REFERENCES reto.cuenta_cliente(id_cuenta_cliente);
+

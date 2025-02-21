@@ -1,0 +1,5 @@
+curl --request POST \
+  --url http://localhost:8080/reto/persona/nuevoUsuario \
+  --header 'Content-Type: application/json' \
+  --header 'accept: application/json' \
+  --data '{ "nombre": "Juan Osorio", "direccion": "13 junio y Equinoccial", "edad": 37, "contrasena": "1245", "identificacion": "170102", "telefono": "098874587"}'

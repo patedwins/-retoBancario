@@ -1,0 +1,45 @@
+server:
+  servlet:
+    contextPath: /reto
+  port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+---
+spring:
+  datasource:
+    postgres:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://pg-retobancario-patedwins-51db.h.aivencloud.com:14509/defaultdb
+      username: avnadmin
+      password: AVNS_mInwqcKdhpvPttfbR-b
+      hikari:
+        minimumIdle: ${base.minimumidle:5}
+        connectionTimeout: ${base.timeout:60000}
+        idleTimeout: ${base.idletimeout:600000}
+        maxLifetime: ${base.maxlifetime:180000}
+        maximumPoolSize: ${base.maxpoolsize:300}
+        connectionTestQuery: SELECT 1
+    jpa:
+      # database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+      hibernate:
+        ddl-auto: none
+      show-sql: true
+    jackson:
+      default-property-inclusion: non_null
+logging:
+  level:
+    root: INFO
+    #: DEBUG
+    org.hibernate.SQL: DEBUG
+    #org.hibernate.type.descriptor.sql: TRACE
+    #org.springframework.jdbc.core.JdbcTemplate: DEBUG
+    #org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+springdoc:
+  swagger-ui:
+    enabled: true #access path "http://localhost:8080/common-services/swagger-ui.html"
+jwt:
+  secret: f865b53623b121fd34ee5426c792e5c3
